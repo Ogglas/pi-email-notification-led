@@ -91,13 +91,19 @@ old_inbox_counter = inbox_counter
 
 while (True):
     try:
+
         if  (inbox_counter != old_inbox_counter):
             logging.debug("New email!")
             logging.debug("inbox_counter = " + str(inbox_counter))
             logging.debug("old_inbox_counter = " + str(old_inbox_counter))
-            GPIO.output(gpio_pin, False)
-            sleep(lamp_time_on * (inbox_counter - old_inbox_counter))
+            if  ((inbox_counter - old_inbox_counter) > 0):
+                GPIO.output(gpio_pin, False)
+                logging.info("Attack detected!")
+                sleep(lamp_time_on * (inbox_counter - old_inbox_counter))
+            else:
+                logging.info("Detected emails removed from inbox")
             old_inbox_counter = inbox_counter
+
         else:
             sleep(check_frequency)
             inbox_counter = int(check_number_of_emails(server, server_port, username, password))
