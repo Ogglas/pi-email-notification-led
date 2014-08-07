@@ -91,7 +91,6 @@ old_inbox_counter = inbox_counter
 
 while (True):
     try:
-
         if  (inbox_counter != old_inbox_counter):
             logging.debug("New email!")
             logging.debug("inbox_counter = " + str(inbox_counter))
@@ -103,7 +102,6 @@ while (True):
             else:
                 logging.info("Detected emails removed from inbox")
             old_inbox_counter = inbox_counter
-
         else:
             sleep(check_frequency)
             inbox_counter = int(check_number_of_emails(server, server_port, username, password))
